@@ -1,20 +1,63 @@
+use std::ops::{Add, AddAssign, Mul, SubAssign};
 pub mod prelude;
 pub mod shapes;
 
-pub fn approach(mut from: f32, to: f32, amount: f32) -> f32 {
-    if from < to {
-        from += amount;
+pub trait Approach<F> {
+    fn approach(self, to: Self, amount: Self) -> Self;
+}
 
-        if from > to {
-            return to;
-        }
-    } else {
-        from -= amount;
+impl<T> Approach<T> for T
+where
+    T: Add<Output = T> + Mul<T, Output = T> + SubAssign + AddAssign + PartialOrd,
+{
+    fn approach(mut self, to: Self, amount: Self) -> Self {
+        if self < to {
+            self += amount;
 
-        if from < to {
-            return to;
+            if self > to {
+                return to;
+            }
+        } else {
+            self -= amount;
+
+            if self < to {
+                return to;
+            }
         }
+
+        self
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::Approach;
+
+    #[test]
+    pub fn approach_float_positive() {
+        let result = 15f32.approach(30., 5.);
+
+        assert_eq!(result, 20.);
     }
 
-    from
+    #[test]
+    pub fn approach_float_positive_prevent_further() {
+        let result = 25f32.approach(30., 10.);
+
+        assert_eq!(result, 30.);
+    }
+
+    #[test]
+    pub fn approach_float_negative() {
+        let result = 15f32.approach(8., 5.);
+
+        assert_eq!(result, 10.);
+    }
+
+    #[test]
+    pub fn approach_float_negative_prevent_further() {
+        let result = 15f32.approach(8., 5.);
+
+        assert_eq!(result, 10.);
+    }
 }
