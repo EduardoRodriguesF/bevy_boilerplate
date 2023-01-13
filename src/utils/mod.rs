@@ -60,4 +60,11 @@ mod test {
 
         assert_eq!(result, 10.);
     }
+
+    #[test]
+    pub fn approach_int_positive() {
+        let result = 15i32.approach(30, 5);
+
+        assert_eq!(result, 20);
+    }
 }
