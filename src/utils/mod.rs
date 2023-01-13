@@ -35,9 +35,9 @@ mod test {
 
     #[test]
     pub fn approach_float_positive() {
-        let result = 15f32.approach(30., 5.);
+        let result = 15f32.approach(30., 2.5);
 
-        assert_eq!(result, 20.);
+        assert_eq!(result, 17.5);
     }
 
     #[test]
@@ -49,9 +49,9 @@ mod test {
 
     #[test]
     pub fn approach_float_negative() {
-        let result = 15f32.approach(8., 5.);
+        let result = 15f32.approach(8., 2.5);
 
-        assert_eq!(result, 10.);
+        assert_eq!(result, 12.5);
     }
 
     #[test]
