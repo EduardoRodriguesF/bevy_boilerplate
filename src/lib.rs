@@ -14,6 +14,10 @@ impl Plugin for GamePlugin {
         app.add_plugins(EssentialPlugins)
             .add_plugin(PhysicsPlugin)
             .add_startup_system(setup);
+
+        if cfg!(debug_assertions) {
+            app.add_plugin(bevy_prototype_debug_lines::DebugLinesPlugin::default());
+        }
     }
 }
 
